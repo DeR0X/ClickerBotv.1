@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
 using System.Threading;
+using System.Diagnostics;
 
 //-----------TODO LIST--------------
 //* Reading Mousecoords and spam the hell out of it[+]
@@ -26,13 +27,18 @@ namespace ClickerBot_reformed
     {
         Mouseclick mouseevent = new Mouseclick();// Klasse Initialize PUBLIC
         LowLevelKeyboardListener keyboardevent = new LowLevelKeyboardListener();
-#region Gloabal Protos
+        Form HelpWindow = new HelpForm();
+
+        #region Gloabal Protos
         //---------------------------------------------------------------
         public bool timerSwitch = false;
         public bool Toggle = true;
-        public int Keyhash = 13; // 7 = Pause, 13 = Escape
+        public bool SetHotKey = false;
+        public int pressed = 0;
+        public static int Keyhash = 13; // 7 = Pause, 13 = Escape
         public int ClickInterval = 25;
         public string ApplicationName = "Clicker Bot v.1";
+        public string LatesVersion_URL = "https://github.com/DeR0X/ClickerBotv.1";
         //----------------------------------------------------------------
 #endregion
         public Form1()//Hier darf nichts mehr rein...
@@ -74,7 +80,15 @@ namespace ClickerBot_reformed
 
         void keyboard_OnKeyPressed(object sender, KeyPressedArgs e)
         {
-            if (e.KeyPressed.GetHashCode().Equals(Keyhash) && Toggle == true)
+            if(pressed == 1)
+            {
+                Keyhash = e.KeyPressed.GetHashCode();
+                button1.Text = "Set Hotkey";
+                label2.Text = "Hotkey: " + e.KeyPressed.ToString();
+                pressed = 0;
+
+            }
+            else if (e.KeyPressed.GetHashCode().Equals(Keyhash) && Toggle == true)
             {
                 richTextBox1.Clear();
                 richTextBox1.Text += ("Process Started...");
@@ -106,6 +120,10 @@ namespace ClickerBot_reformed
         {
             keyboardevent.UnHookKeyboard();
         }
+        /// <summary>
+        /// Scrolls down in the richTextBox1
+        /// USAGE: scrollDown();
+        /// </summary>
         public void scrollDown()
         {
             richTextBox1.SelectionStart = richTextBox1.Text.Length;
@@ -117,10 +135,48 @@ namespace ClickerBot_reformed
             try
             {
                 ClickInterval = Convert.ToInt32(textBox1.Text);
-            }catch(Exception ex)
+            }catch(Exception) // ex missing here
             {
                 richTextBox1.Text += "NUR ZIFFERN\n";
             }
+        }
+        /// <summary>
+        /// Only numbers in this box hee
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {//char.IsDigit = Ziffern Check
+                e.Handled = true;
+
+            }
+        }
+#region StripMenu
+        private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HelpForm.Fcredits = false;
+            HelpWindow.ShowDialog();
+        }
+
+        private void creditsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HelpForm.Fcredits = true;
+            HelpWindow.ShowDialog();
+        }
+
+
+        private void latestVersionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(LatesVersion_URL);//create a new Tab!
+        }
+        #endregion
+        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Text = "Press a KEY";
+            pressed = 1;
         }
     }
 }
