@@ -39,8 +39,11 @@
             this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.howToUseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,10 +82,11 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.statisticsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(380, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(378, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -124,9 +128,16 @@
             this.howToUseToolStripMenuItem.Text = "How To Use";
             this.howToUseToolStripMenuItem.Click += new System.EventHandler(this.howToUseToolStripMenuItem_Click);
             // 
+            // statisticsToolStripMenuItem
+            // 
+            this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
+            this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.statisticsToolStripMenuItem.Text = "Statistics";
+            this.statisticsToolStripMenuItem.Click += new System.EventHandler(this.statisticsToolStripMenuItem_Click);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(293, 41);
+            this.button1.Location = new System.Drawing.Point(283, 42);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
@@ -137,17 +148,31 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(293, 25);
+            this.label2.Location = new System.Drawing.Point(280, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 13);
             this.label2.TabIndex = 8;
             this.label2.Text = "Hotkey: Escape";
             // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(297, 283);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "label3";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 318);
+            this.ClientSize = new System.Drawing.Size(378, 318);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
@@ -180,6 +205,9 @@
         private System.Windows.Forms.ToolStripMenuItem howToUseToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem statisticsToolStripMenuItem;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Label label3;
     }
 }
 
