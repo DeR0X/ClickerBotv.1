@@ -33,9 +33,9 @@ namespace ClickerBot_reformed
         //---------------------------------------------------------------
         public bool timerSwitch = false;
         public bool Toggle = true;
-        public bool SetHotKey = false;
         public int pressed = 0;
-        public static int Keyhash = 13; // 7 = Pause, 13 = Escape
+        public int Keyhash = 13; // 7 = Pause, 13 = Escape
+        public static string _Keyhash;
         public int ClickInterval = 25;
         public string ApplicationName = "Clicker Bot v.1";
         public string LatesVersion_URL = "https://github.com/DeR0X/ClickerBotv.1";
@@ -83,6 +83,7 @@ namespace ClickerBot_reformed
             if(pressed == 1)
             {
                 Keyhash = e.KeyPressed.GetHashCode();
+                _Keyhash = e.KeyPressed.ToString();
                 button1.Text = "Set Hotkey";
                 label2.Text = "Hotkey: " + e.KeyPressed.ToString();
                 pressed = 0;
@@ -137,7 +138,7 @@ namespace ClickerBot_reformed
                 ClickInterval = Convert.ToInt32(textBox1.Text);
             }catch(Exception) // ex missing here
             {
-                richTextBox1.Text += "NUR ZIFFERN\n";
+                richTextBox1.Text += "Please just use Numbers\n";
             }
         }
         /// <summary>

@@ -32,7 +32,7 @@ namespace ClickerBot_reformed
             {
                 TopMost = true;
                 ActiveForm.Text = ApplicationName;
-                label1.Text = "[HOTKEYS]:\n\nESC - Enable & Disable botting\n\n[Information]:\n\nInterval: How fast your bot is clicking!\nPlease choose Carefull - a normal Pc can \nhandle everything but it could stuck/freeze later on.\nBest Option is above 25";
+                label1.Text = "[HOTKEYS]:\n\n" +Form1._Keyhash +" - Enable & Disable botting\n\n[Information]:\n\nInterval: How fast your bot is clicking!\nPlease choose carefull - a normal Pc can \nhandle everything but it could stuck/freeze later on.\nBest Option is above 25";
 
             }
         }
