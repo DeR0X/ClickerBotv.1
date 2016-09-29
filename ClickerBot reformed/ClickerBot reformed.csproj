@@ -72,19 +72,19 @@
     </Compile>
     <Compile Include="Classes\Mouseclick.cs" />
     <Compile Include="Classes\LowLevelKeyboardListener.cs" />
-    <Compile Include="HelpForm.cs">
+    <Compile Include="NewWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HelpForm.Designer.cs">
-      <DependentUpon>HelpForm.cs</DependentUpon>
+    <Compile Include="NewWindow.Designer.cs">
+      <DependentUpon>NewWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HelpForm.resx">
-      <DependentUpon>HelpForm.cs</DependentUpon>
+    <EmbeddedResource Include="NewWindow.resx">
+      <DependentUpon>NewWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

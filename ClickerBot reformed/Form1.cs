@@ -27,7 +27,7 @@ namespace ClickerBot_reformed
     {
         Mouseclick mouseevent = new Mouseclick();// Klasse Initialize PUBLIC
         LowLevelKeyboardListener keyboardevent = new LowLevelKeyboardListener();
-        Form HelpWindow = new HelpForm();
+        NewWindow NewWindow = new NewWindow();
 
         #region Gloabal Protos
         //---------------------------------------------------------------
@@ -157,14 +157,14 @@ namespace ClickerBot_reformed
 #region StripMenu
         private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            HelpForm.Fcredits = false;
-            HelpWindow.ShowDialog();
+            NewWindow.Fcredits = false;
+            NewWindow.ShowDialog();
         }
 
         private void creditsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            HelpForm.Fcredits = true;
-            HelpWindow.ShowDialog();
+            NewWindow.Fcredits = true;
+            NewWindow.ShowDialog();
         }
 
 
