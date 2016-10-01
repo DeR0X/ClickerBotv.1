@@ -16,6 +16,7 @@ Things the Programm does have:
 --------------------------------------------------------
 
 ♦WHY SHOUDL I USE IT ?
+
 It is a bot, if you get bored of clicking around or if you just wanna be the 
 best, this bot will help you alot while doing clicks for you automaticly
 
