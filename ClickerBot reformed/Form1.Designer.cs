@@ -163,9 +163,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(297, 283);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.Size = new System.Drawing.Size(46, 13);
             this.label3.TabIndex = 9;
-            this.label3.Text = "label3";
+            this.label3.Text = "Runtime";
             // 
             // Form1
             // 
@@ -182,6 +182,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Clicker Bot";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.Form1_Load);

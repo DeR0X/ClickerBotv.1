@@ -2,14 +2,15 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
 
 //-----------TODO LIST--------------
 //* Reading Mousecoords and spam the hell out of it[+]
 //* Hotkey for Start and Stop!!![+]
 //* Friendly Interface(Icons, Statistics etc.)[-]
-//* 
+//* Include schreiben für Koyboardlistener + Hotkey changeing 
 //------------BUGLIST---------------
-//• Scrolling Automatically while Window in background if typing in another random application
+//• Scrolling Automatically while Window in background if typing in another random application [FIXED]
 //
 //
 namespace ClickerBot_reformed
@@ -19,24 +20,27 @@ namespace ClickerBot_reformed
         Mouseclick mouseevent = new Mouseclick();// Klasse Initialize PUBLIC
         LowLevelKeyboardListener keyboardevent = new LowLevelKeyboardListener();
         NewWindow NewWindow = new NewWindow();
+        Controlmouseclick ControlMouse = new Controlmouseclick();
 
-
-        
-
-#region Gloabal Values
+        #region Gloabal Values
         //---------------------------------------------------------------
         public bool timerSwitch = false;
-        public static bool Toggle = true;
-        public int pressed = 0;
+        public bool pressed = false;
         public int Keyhash = 13; // 7 = Pause, 13 = Escape
-        public static string _Keyhash = "Escape";
-        public static int Runtime = 0;
-        public static int ClickInterval = 25;
-        public string ApplicationName = "Clicker Bot v.1";
+        public ushort StandartKey = 31; // insert
+
+        public static byte Toggle = 0;
         public string LatesVersion_URL = "https://github.com/DeR0X/ClickerBotv.1";
-        public static int clickAmount = 0;
+        public static string _Keyhash = "Escape";
+        public static ushort Runtime = 0;
+        public static ushort CurrentRuntime = 0;
+        public static uint clickAmount = 0;
+        public static uint CurrentClickAmount = 0;
+        public static int ClickInterval = 25;
+        public static string ApplicationName = "Clicker Bot v.1";
+        public static int UsageCPU = 0;
         //----------------------------------------------------------------
-#endregion
+        #endregion
         public Form1()//Hier darf nichts mehr rein...
         {
             InitializeComponent();
@@ -61,28 +65,30 @@ namespace ClickerBot_reformed
         /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
-            NewWindow.Refreshlabel();
+            timer1.Interval = ClickInterval;
             if(ClickInterval == 0)
             {
                 richTextBox1.Text = "PLEASE SET AN INTERVAL FOR THE PROGRAMM!!!!\nOr it wont RUN!";
             }
             else
             {
-                clickAmount += 1;//zähler
-                timer1.Interval = ClickInterval;
-                int[] _coords = { Cursor.Position.X, Cursor.Position.Y };
-                richTextBox1.Text += ("\nMouse: X: " + _coords[0] + " Y:" + _coords[1]);
+                CurrentClickAmount++;
+                clickAmount++;//zähler
                 scrollDown();
                 mouseevent.LeftClick(Cursor.Position.X, Cursor.Position.Y);
+                NewWindow.Refreshlabel();
             }
-
         }
         private void timer2_Tick(object sender, EventArgs e)
         {
             timer2.Interval = 1000 *1; //timer runs everysecound
+            if (Toggle == 1)//current runtime
+            {
+                CurrentRuntime++;
+            }
             Runtime++;
             label3.Text = Runtime.ToString();
-
+            NewWindow.Refreshlabel();
         }
         /// <summary>
         /// Keylogger funktion
@@ -92,44 +98,53 @@ namespace ClickerBot_reformed
 
         void keyboard_OnKeyPressed(object sender, KeyPressedArgs e)
         {
-            if(pressed == 1)
+            if(pressed == true)
             {
                 Keyhash = e.KeyPressed.GetHashCode();
                 _Keyhash = e.KeyPressed.ToString();
                 button1.Text = "Set Hotkey";
                 label2.Text = "Hotkey: " + e.KeyPressed.ToString();
-                pressed = 0;
-
+                pressed = false;
             }
-            else if (e.KeyPressed.GetHashCode().Equals(Keyhash) && Toggle == true)
+            if (e.KeyPressed.GetHashCode().Equals(StandartKey) && Toggle == 0)
             {
-                richTextBox1.Clear();
-                richTextBox1.Text += ("Process Started...");
-                Toggle = false;
-
+                Toggle = 2;
             }
-            else if (e.KeyPressed.GetHashCode().Equals(Keyhash) && Toggle == false)
+            switch (Toggle)
             {
-                if(ClickInterval == 0)
-                {
-
-                }else
-                {
-                    richTextBox1.Text += ("\nProcess Stoped");
-                    Toggle = true;
-                }
-
-
-            }
-            switch (e.KeyPressed.GetHashCode().Equals(Keyhash) && Toggle == false)//Toggle pause undso
-            {
-                case false:
-                    timer1.Enabled = false;
-                    scrollDown();
-                    //richTextBox1.Text += "\nProcess: " + e.KeyPressed.GetHashCode()+ " ("+e.KeyPressed.ToString()+")";
+                case 0://timer = true
+                    if (e.KeyPressed.GetHashCode().Equals(Keyhash))
+                    {
+                        CurrentRuntime = 0;
+                        CurrentClickAmount = 0;
+                        timer1.Enabled = true;
+                        richTextBox1.Text += "\nProcess: " + e.KeyPressed.GetHashCode() + " (" + e.KeyPressed.ToString() + ")";
+                        richTextBox1.Clear();
+                        richTextBox1.Text += ("Process Started...");
+                        Toggle = 1;
+                        scrollDown();
+                    }
+                    else{   }
                     break;
-                case true:
-                    timer1.Enabled = true;
+                case 1://timer flase;
+
+                    if (e.KeyPressed.GetHashCode().Equals(Keyhash) && ClickInterval != 0)
+                    {
+                        timer1.Enabled = false;
+                        richTextBox1.Text += ("\nProcess Stoped");
+                        Toggle = 0;
+                        scrollDown();
+                    }else{  }
+                    break;
+
+                case 2://Standart Hotkey
+
+                    //Set Window title
+                    //Controlmouseclick.ClickOnPoint(this.Handle, new Point(Cursor.Position.X,Cursor.Position.Y));
+                    //timer1.Enabled = true;
+                    Controlmouseclick.ClickOnPoint(Handle, new Point());
+                    richTextBox1.Text = "Window Title: "+Handle.ToString();
+                    Toggle = 0;
                     scrollDown();
                     break;
             }
@@ -137,16 +152,6 @@ namespace ClickerBot_reformed
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             keyboardevent.UnHookKeyboard();
-        }
-
-        /// <summary>
-        /// Writes in the richTextBox
-        /// </summary>
-        /// <param name="Write"></param>
-        public static void richTextBox_Write(string Write)
-        {
-            Form1 form1 = new Form1();
-            form1.richTextBox1.Text += Write;
         }
         /// <summary>
         /// Scrolls down in the richTextBox1
@@ -184,7 +189,7 @@ namespace ClickerBot_reformed
         private void button1_Click(object sender, EventArgs e)
         {
             button1.Text = "Press a KEY";
-            pressed = 1;
+            pressed = true;
         }
         #region StripMenu
 
